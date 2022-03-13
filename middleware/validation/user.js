@@ -27,7 +27,7 @@ exports.validateUserSignUp = [
         .withMessage('Password is empty!')
         .isLength({ min: 8, max: 20 })
         .withMessage('Password must be 3 to 20 characters long!'),
-    check('confirmPassword')
+    check('confirmpassword')
         .trim()
         .not()
         .isEmpty()

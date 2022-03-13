@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 exports.createUser = async (req, res)=>{
-    const {firstName, lastName, email, password, phoneNo} = req.body;
+    const {firstName, lastName, email, password, confirmpassword, phoneNo} = req.body;
     const isNewUser = await User.isThisEmailInUse(email);
     if(!isNewUser)
     {
@@ -17,6 +17,7 @@ exports.createUser = async (req, res)=>{
        lastName,
        email, 
        password,
+       confirmpassword,
        phoneNo,
     });
     await user.save();
@@ -26,12 +27,20 @@ exports.createUser = async (req, res)=>{
 
 exports.userSignIn = async (req, res)=>{
     const {email, password} = req.body
+    // console.log(email, password);
+    cred = {
+        email: email,
+        password: password,
+    }
+    console.log(cred)
     const user = await User.findOne({email})
 
-    if(!user) return res.json({success: false, message: 'user not found'});
+    if(!user) return (console.log("user not found"));
+        // res.json({success: false, message: 'user not found'});
 
     const isMatch = await user.comparePassword(password);
-    if(!isMatch) return res.json({success: false, message: 'email/password is does not match'});
+    if(!isMatch) return (console.log("logged in successfully"));
+    // res.json({success: false, message: 'email/password is does not match'});
 
     const token = jwt.sign({userId: user._id}, 'VERYsecret', {expiresIn: '1d'})
     res.json({success: true, user, token});
