@@ -17,7 +17,7 @@ const SignInScreen = () => {
         console.warn( 'Login pressed' )
         // validate user
 
-        navigation.navigate("HomeScreen")
+        navigation.navigate("ProductList")
     }
     const OnSignUpPressed = () => {
         console.warn( 'Sign Up' )
